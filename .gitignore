@@ -361,7 +361,4 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd/.gitignore
-<<<<<<< HEAD
 appsetting.json
-=======
->>>>>>> 06f5572209707da65e8174384584ee58f5d5c0d7
