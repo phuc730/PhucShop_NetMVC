@@ -8,3 +8,4 @@
 -Microsoft.EntityFrameworkCore.Design
 -Microsoft.Extensions.Configuration.FileExtension
 -Microsoft.Extensions.Configuration.Json
+-Microsoft.AspNetCore.Identity.EntityFrameworkCore

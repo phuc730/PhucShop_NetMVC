@@ -5,10 +5,12 @@ using System.Text;
 using PhucShop.Data.Entities;
 using PhucShop.Data.Configurations;
 using PhucShop.Data.Extensions;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace PhucShop.Data.EF
 {
-    public class PShopDbContext : DbContext
+    public class PShopDbContext : IdentityDbContext<AppUser, AppRole, Guid>
     {
         public PShopDbContext(DbContextOptions options) : base(options)
         {
@@ -34,6 +36,14 @@ namespace PhucShop.Data.EF
             modelBuilder.ApplyConfiguration(new PromotionConfiguration());
             modelBuilder.ApplyConfiguration(new TransactionConfiguration());
 
+            modelBuilder.ApplyConfiguration(new AppUserConfiguration());
+            modelBuilder.ApplyConfiguration(new AppRoleConfiguration());
+
+            modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable("AppUserClaims");
+            modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("AppUserRoles").HasKey(x => new { x.UserId, x.RoleId });
+            modelBuilder.Entity<IdentityUserLogin<Guid>>().ToTable("AppUserLogins").HasKey(x => x.UserId);
+            modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable("AppUserTokens").HasKey(x => x.UserId);
+            modelBuilder.Entity<IdentityRoleClaim<Guid>>().ToTable("AppRoleClaims");
             //Seeding Db
             modelBuilder.Seed();
             // base.OnModelCreating(modelBuilder);
