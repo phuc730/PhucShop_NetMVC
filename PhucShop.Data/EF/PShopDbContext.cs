@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using PhucShop.Data.Entities;
+using PhucShop.Data.Configurations;
 
 namespace PhucShop.Data.EF
 {
@@ -12,7 +13,26 @@ namespace PhucShop.Data.EF
         {
 
         }
+        //Config DB by FluentAPI
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new CartConfiguration());
 
+            modelBuilder.ApplyConfiguration(new AppConfigConfiguration());
+            modelBuilder.ApplyConfiguration(new ProductConfiguration());
+            modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+            modelBuilder.ApplyConfiguration(new ProductInCategoryConfiguration());
+            modelBuilder.ApplyConfiguration(new OrderConfiguration());
+
+            modelBuilder.ApplyConfiguration(new OrderDetailConfiguration());
+            modelBuilder.ApplyConfiguration(new CategoryTranslationConfiguration());
+            modelBuilder.ApplyConfiguration(new ContactConfiguration());
+            modelBuilder.ApplyConfiguration(new LanguageConfiguration());
+            modelBuilder.ApplyConfiguration(new ProductTranslationConfiguration());
+            modelBuilder.ApplyConfiguration(new PromotionConfiguration());
+            modelBuilder.ApplyConfiguration(new TransactionConfiguration());
+            // base.OnModelCreating(modelBuilder);
+        }
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<AppConfig> AppConfigs { get; set; }
