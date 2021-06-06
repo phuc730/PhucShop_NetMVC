@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using PhucShop.Data.Entities;
 using PhucShop.Data.Configurations;
+using PhucShop.Data.Extensions;
 
 namespace PhucShop.Data.EF
 {
@@ -13,9 +14,10 @@ namespace PhucShop.Data.EF
         {
 
         }
-        //Config DB by FluentAPI
+      
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //Config DB using FluentAPI
             modelBuilder.ApplyConfiguration(new CartConfiguration());
 
             modelBuilder.ApplyConfiguration(new AppConfigConfiguration());
@@ -31,6 +33,9 @@ namespace PhucShop.Data.EF
             modelBuilder.ApplyConfiguration(new ProductTranslationConfiguration());
             modelBuilder.ApplyConfiguration(new PromotionConfiguration());
             modelBuilder.ApplyConfiguration(new TransactionConfiguration());
+
+            //Seeding Db
+            modelBuilder.Seed();
             // base.OnModelCreating(modelBuilder);
         }
         public DbSet<Product> Products { get; set; }
