@@ -4,4 +4,13 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="3.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PhucShop.Data\PhucShop.Data.csproj" />
+    <ProjectReference Include="..\PhucShop.Utilities\PhucShop.Utilities.csproj" />
+  </ItemGroup>
+
 </Project>
