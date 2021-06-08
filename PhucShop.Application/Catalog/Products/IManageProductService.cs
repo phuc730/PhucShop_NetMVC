@@ -1,8 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Http;
-using PhucShop.ViewModels.Catalog.Product.Public;
-using PhucShop.ViewModels.Catalog.Products.Dtos;
-using PhucShop.ViewModels.Catalog.Products.Dtos.Manage;
+using PhucShop.ViewModels.Catalog.Product;
+using PhucShop.ViewModels.Catalog.Products;
 using PhucShop.ViewModels.Common;
 using System;
 using System.Collections.Generic;
@@ -25,7 +24,7 @@ namespace PhucShop.Application.Catalog.Products
 
         Task AddViewcount(int productId);
 
-        Task<PageResult<ProductViewModel>> GetAllPaging(ProductPagingRequest request);
+        Task<PageResult<ProductViewModel>> GetAllPaging(ManageProductPagingRequest request);
 
         Task<int> AddImages(int productId, List<IFormFile> files);
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PhucShop.ViewModels.Catalog.Product.Public
+namespace PhucShop.ViewModels.Catalog.Product
 {
     public class ProductImageViewModel
     {

@@ -8,14 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using PhucShop.ViewModels.Catalog.Products.Dtos.Manage;
-using PhucShop.ViewModels.Catalog.Products.Dtos;
+using PhucShop.ViewModels.Catalog.Products;
 using PhucShop.ViewModels.Common;
 using PhucShop.Application.Common;
 using Microsoft.AspNetCore.Http;
 using System.Net.Http.Headers;
 using System.IO;
-using PhucShop.ViewModels.Catalog.Product.Public;
+using PhucShop.ViewModels.Catalog.Product;
 
 namespace PhucShop.Application.Catalog.Products
 {   
@@ -128,7 +127,7 @@ namespace PhucShop.Application.Catalog.Products
         }
 
 
-        public async Task<PageResult<ProductViewModel>> GetAllPaging(ProductPagingRequest request)
+        public async Task<PageResult<ProductViewModel>> GetAllPaging(ManageProductPagingRequest request)
         {
             //1. Select join
             var query = from p in _context.Products

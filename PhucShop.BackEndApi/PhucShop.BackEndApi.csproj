@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PhucShop.Application\PhucShop.Application.csproj" />
+    <ProjectReference Include="..\PhucShop.Data\PhucShop.Data.csproj" />
+    <ProjectReference Include="..\PhucShop.Utilities\PhucShop.Utilities.csproj" />
+    <ProjectReference Include="..\PhucSop.WebApp\PhucSop.WebApp.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,6 +1,5 @@
 ﻿
-using PhucShop.ViewModels.Catalog.Products.Dtos;
-using PhucShop.ViewModels.Catalog.Products.Dtos.Public;
+using PhucShop.ViewModels.Catalog.Products;
 using PhucShop.ViewModels.Common;
 using System;
 using System.Collections.Generic;
@@ -11,6 +10,8 @@ namespace PhucShop.Application.Catalog.Products
 {
     public interface IPublicProductService
     {
-       Task<PageResult<ProductViewModel>> GetAllByCategoryId(ProductPagingRequest request);
+       Task<PageResult<ProductViewModel>> GetAllByCategoryId(PublicProductPagingRequest request);
+
+        Task<List<ProductViewModel>> GetAll();
     }
 }

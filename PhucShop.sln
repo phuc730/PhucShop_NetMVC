@@ -18,6 +18,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhucShop.Utilities", "PhucS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhucShop.ViewModels", "PhucShop.ViewModels\PhucShop.ViewModels.csproj", "{07B7014C-88D3-4322-ADAD-C51D73ADA5B0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhucShop.BackEndApi", "PhucShop.BackEndApi\PhucShop.BackEndApi.csproj", "{D5FB7AE1-5A84-4E2E-AEBD-6E87023C8849}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,10 @@ Global
 		{07B7014C-88D3-4322-ADAD-C51D73ADA5B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07B7014C-88D3-4322-ADAD-C51D73ADA5B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07B7014C-88D3-4322-ADAD-C51D73ADA5B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5FB7AE1-5A84-4E2E-AEBD-6E87023C8849}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5FB7AE1-5A84-4E2E-AEBD-6E87023C8849}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5FB7AE1-5A84-4E2E-AEBD-6E87023C8849}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5FB7AE1-5A84-4E2E-AEBD-6E87023C8849}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

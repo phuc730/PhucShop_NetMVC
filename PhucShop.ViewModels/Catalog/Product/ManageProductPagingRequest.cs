@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace PhucShop.ViewModels.Catalog.Products.Dtos.Manage
+namespace PhucShop.ViewModels.Catalog.Products
 {
-    public class ProductPagingRequest : PagingRequestBase
+    public class ManageProductPagingRequest : PagingRequestBase
     {
         public string KeyWord { get; set; }
         public List<int> CategoryIds { get; set; }
