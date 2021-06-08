@@ -18,6 +18,8 @@ namespace PhucShop.Application.Catalog.Products
 
         Task<int> Delete(int ProductId);
 
+        Task<ProductViewModel> GetById(int Productid, string languageId);
+
         Task<bool> UpdatePrice(int productId, decimal newPrice);
 
         Task<bool> UpdateStock(int productId, int addedQuantity);

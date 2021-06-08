@@ -15,4 +15,8 @@
     <ProjectReference Include="..\PhucSop.WebApp\PhucSop.WebApp.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\user-content\" />
+  </ItemGroup>
+
 </Project>

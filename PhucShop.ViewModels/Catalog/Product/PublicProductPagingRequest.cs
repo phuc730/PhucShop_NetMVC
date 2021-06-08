@@ -7,6 +7,7 @@ namespace PhucShop.ViewModels.Catalog.Products
 {
     public class PublicProductPagingRequest : PagingRequestBase
     {
+        public string LanguageId { get; set; }
         public int? CategoryId { get; set; }
     }
 }

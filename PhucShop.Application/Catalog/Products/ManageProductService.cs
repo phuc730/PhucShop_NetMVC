@@ -44,6 +44,14 @@ namespace PhucShop.Application.Catalog.Products
                 Stock = request.Stock,
                 ViewCount = 0,
                 DateCreated = DateTime.Now,
+                ProductInCategories = new List<ProductInCategory>()
+                {
+                    new ProductInCategory()
+                    {
+                        CategoryId = request.CategoryId,
+                       
+                    }
+                },
                 ProductTranslations = new List<ProductTranslation>()
                 {
                     new ProductTranslation()
@@ -123,7 +131,8 @@ namespace PhucShop.Application.Catalog.Products
                     _context.ProductImages.Update(thumbNailImage);
                 }
             }
-            return await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+            return product.Id;
         }
 
 
@@ -163,7 +172,9 @@ namespace PhucShop.Application.Catalog.Products
                     SeoDescription = x.pt.SeoDescription,
                     SeoTitle = x.pt.SeoTitle,
                     Stock = x.p.Stock,
-                    ViewCount = x.p.ViewCount
+                    ViewCount = x.p.ViewCount,
+                    CategoryId = x.pic.CategoryId
+                    
                 }).ToListAsync();
 
             //4. Select and projection
@@ -219,6 +230,32 @@ namespace PhucShop.Application.Catalog.Products
         public Task<List<ProductImageViewModel>> GetListImage(int productId)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<ProductViewModel> GetById(int Productid, string languageId)
+        {
+            var product = await _context.Products.FindAsync(Productid);
+            var productTranslation = await _context.ProductTranslations.FirstOrDefaultAsync(x => x.ProductId == Productid
+            && x.LanguageId == languageId);
+            var productInCategory = await _context.ProductInCategories.FirstOrDefaultAsync(x => x.ProductId == Productid);
+            var productViewModel = new ProductViewModel()
+            {
+                Id = product.Id,
+                DateCreated = product.DateCreated,
+                Description = productTranslation != null ? productTranslation.Description : null,
+                LanguageId = productTranslation.LanguageId,
+                Details = productTranslation != null ? productTranslation.Details : null,
+                Name = productTranslation != null ? productTranslation.Name : null,
+                OriginalPrice = product.OriginalPrice,
+                Price = product.Price,
+                SeoAlias = productTranslation != null ? productTranslation.SeoAlias : null,
+                SeoDescription = productTranslation != null ? productTranslation.SeoDescription : null,
+                SeoTitle = productTranslation != null ? productTranslation.SeoTitle : null,
+                Stock = product.Stock,
+                ViewCount = product.ViewCount,
+                CategoryId = productInCategory.CategoryId
+            };
+            return productViewModel;
         }
     }
 }

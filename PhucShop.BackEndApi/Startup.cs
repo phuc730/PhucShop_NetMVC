@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using PhucShop.Application.Catalog.Products;
+using PhucShop.Application.Common;
 using PhucShop.Data.EF;
 using PhucShop.Utilities.Constants;
 using System;
@@ -32,7 +33,9 @@ namespace PhucShop.BackEndApi
                options.UseSqlServer(Configuration.GetConnectionString(SystemConstants.MainConnectionString)));
 
             //Delare DI
+            services.AddTransient<IStorageService, FileStorageService>();
             services.AddTransient<IPublicProductService, PublicProductService>();
+            services.AddTransient<IManageProductService, ManageProductService>();
 
             services.AddControllersWithViews();
 

@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhucSop.WebApp", "PhucSop.WebApp\PhucSop.WebApp.csproj", "{2AE5EFE1-AF97-4104-9CC0-CEEF544648E9}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C63CDA74-423D-4D93-AD0C-0F22FF6FDB58}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0.Solution Items", "0.Solution Items", "{C63CDA74-423D-4D93-AD0C-0F22FF6FDB58}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
 	EndProjectSection
@@ -19,6 +19,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhucShop.ViewModels", "PhucShop.ViewModels\PhucShop.ViewModels.csproj", "{07B7014C-88D3-4322-ADAD-C51D73ADA5B0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhucShop.BackEndApi", "PhucShop.BackEndApi\PhucShop.BackEndApi.csproj", "{D5FB7AE1-5A84-4E2E-AEBD-6E87023C8849}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.Infrastructure", "1.Infrastructure", "{10ECD74F-9600-4A7B-B26D-E6B7F777BEF5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.Domain", "2.Domain", "{BE510946-1484-4F9C-9696-B7ED35409010}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.Host", "3.Host", "{64CBE610-F3DF-4EBB-9DCC-81B3D1D887D9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +59,14 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2AE5EFE1-AF97-4104-9CC0-CEEF544648E9} = {64CBE610-F3DF-4EBB-9DCC-81B3D1D887D9}
+		{8603B0D6-0DA8-44D3-A52C-8074AE0E7D47} = {BE510946-1484-4F9C-9696-B7ED35409010}
+		{81CA8890-7182-43EB-A689-076AD61D30D6} = {BE510946-1484-4F9C-9696-B7ED35409010}
+		{E9720F83-8CF1-4DC7-B7B4-42C9CB8438CB} = {10ECD74F-9600-4A7B-B26D-E6B7F777BEF5}
+		{07B7014C-88D3-4322-ADAD-C51D73ADA5B0} = {10ECD74F-9600-4A7B-B26D-E6B7F777BEF5}
+		{D5FB7AE1-5A84-4E2E-AEBD-6E87023C8849} = {64CBE610-F3DF-4EBB-9DCC-81B3D1D887D9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {63DA9B71-E346-4A2C-9091-9CE290B17A78}
