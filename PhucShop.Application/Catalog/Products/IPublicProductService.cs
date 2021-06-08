@@ -1,6 +1,7 @@
-﻿using PhucShop.Application.Catalog.Products.Dtos;
-using PhucShop.Application.Catalog.Products.Dtos.Public;
-using PhucShop.Application.Dtos;
+﻿
+using PhucShop.ViewModels.Catalog.Products.Dtos;
+using PhucShop.ViewModels.Catalog.Products.Dtos.Public;
+using PhucShop.ViewModels.Common;
 using System;
 using System.Collections.Generic;
 using System.Text;

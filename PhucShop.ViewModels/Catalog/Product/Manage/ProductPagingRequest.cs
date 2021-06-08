@@ -1,9 +1,9 @@
-﻿using PhucShop.Application.Dtos;
+﻿using PhucShop.ViewModels.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace PhucShop.Application.Catalog.Products.Dtos.Manage
+namespace PhucShop.ViewModels.Catalog.Products.Dtos.Manage
 {
     public class ProductPagingRequest : PagingRequestBase
     {

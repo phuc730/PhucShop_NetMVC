@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PhucShop.Application.Dtos
+namespace PhucShop.ViewModels.Dtos
 {
     public class PagingRequestBase
     {

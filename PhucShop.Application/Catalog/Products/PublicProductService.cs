@@ -1,6 +1,4 @@
-﻿using PhucShop.Application.Catalog.Products.Dtos;
-using PhucShop.Application.Catalog.Products.Dtos.Public;
-using PhucShop.Application.Dtos;
+﻿
 using PhucShop.Data.EF;
 using System;
 using System.Collections.Generic;
@@ -8,6 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using PhucShop.ViewModels.Catalog.Products.Dtos;
+using PhucShop.ViewModels.Common;
+using PhucShop.ViewModels.Catalog.Products.Dtos.Public;
 
 namespace PhucShop.Application.Catalog.Products
 {

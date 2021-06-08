@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PhucShop.Application.Dtos
+namespace PhucShop.ViewModels.Common
 {
     public class PageResult<T>
     {

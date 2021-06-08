@@ -1,6 +1,4 @@
-﻿using PhucShop.Application.Catalog.Products.Dtos;
-using PhucShop.Application.Catalog.Products.Dtos.Manage;
-using PhucShop.Application.Dtos;
+﻿
 using PhucShop.Data.EF;
 using PhucShop.Data.Entities;
 using PhucShop.Utilities.Exceptions;
@@ -10,15 +8,25 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using PhucShop.ViewModels.Catalog.Products.Dtos.Manage;
+using PhucShop.ViewModels.Catalog.Products.Dtos;
+using PhucShop.ViewModels.Common;
+using PhucShop.Application.Common;
+using Microsoft.AspNetCore.Http;
+using System.Net.Http.Headers;
+using System.IO;
+using PhucShop.ViewModels.Catalog.Product.Public;
 
 namespace PhucShop.Application.Catalog.Products
-{   // Add Project D
+{   
     public class ManageProductService : IManageProductService
     {
         private readonly PShopDbContext _context;
-        public ManageProductService(PShopDbContext context)
+        private readonly IStorageService _storageService;
+        public ManageProductService(PShopDbContext context, IStorageService storageService)
         {
             _context = context;
+            _storageService = storageService;
         }
 
         public async Task AddViewcount(int productId)
@@ -52,6 +60,23 @@ namespace PhucShop.Application.Catalog.Products
                 }
             };
             //Save image
+
+            if(request.ThumbnailImage != null)
+            {
+                product.ProductImages = new List<ProductImage>()
+                {
+                    new ProductImage()
+                    {
+                        Caption = "Thumbnail Image",
+                        DateCreated = DateTime.Now,
+                        FileSize = request.ThumbnailImage.Length,
+                        ImagePath = await this.SaveFile(request.ThumbnailImage),
+                        IsDefault = true,
+                        ShortOrder = 1
+
+                    }
+                };
+            }
            
             _context.Products.Add(product);
             return await _context.SaveChangesAsync();
@@ -61,6 +86,13 @@ namespace PhucShop.Application.Catalog.Products
         {
             var product = await _context.Products.FindAsync(ProductId);
             if (product == null) throw new pShopException($"Cannot find a product: {ProductId}");
+
+            //Tim tat ca cac file cua product
+            var images = _context.ProductImages.Where(x => x.ProductId == ProductId);
+            foreach(var image in images){
+                await _storageService.DeleteFileAsync(image.ImagePath);
+            }
+
             _context.Products.Remove(product);
             return await _context.SaveChangesAsync();
         }
@@ -80,6 +112,18 @@ namespace PhucShop.Application.Catalog.Products
             productTranslation.Description = request.Description;
             productTranslation.Details = request.Details;
 
+            //Save image
+
+            if (request.ThumbnailImage != null)
+            {
+                var thumbNailImage = await _context.ProductImages.FirstOrDefaultAsync(x => x.IsDefault == true && x.ProductId == request.Id);
+                if(thumbNailImage != null)
+                {
+                    thumbNailImage.FileSize = request.ThumbnailImage.Length;
+                    thumbNailImage.ImagePath = await this.SaveFile(request.ThumbnailImage);
+                    _context.ProductImages.Update(thumbNailImage);
+                }
+            }
             return await _context.SaveChangesAsync();
         }
 
@@ -148,6 +192,34 @@ namespace PhucShop.Application.Catalog.Products
 
             product.Stock = addedQuantity;
             return await _context.SaveChangesAsync() > 0;
+        }
+
+        private async Task<string> SaveFile(IFormFile file)
+        {
+            var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
+            await _storageService.SaveFileAsync(file.OpenReadStream(), fileName);
+            return fileName;
+        }
+
+        public Task<int> AddImages(int productId, List<IFormFile> files)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> RemoveImages(int imageId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> UpdateImage(int imageId, string caption, bool isDefault)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<ProductImageViewModel>> GetListImage(int productId)
+        {
+            throw new NotImplementedException();
         }
     }
 }
