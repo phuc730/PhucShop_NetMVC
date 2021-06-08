@@ -9,3 +9,4 @@
 -Microsoft.Extensions.Configuration.FileExtension
 -Microsoft.Extensions.Configuration.Json
 -Microsoft.AspNetCore.Identity.EntityFrameworkCore
+-Swashbuckle.AspNetCore
