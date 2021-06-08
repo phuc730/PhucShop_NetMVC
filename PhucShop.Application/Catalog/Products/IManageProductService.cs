@@ -12,7 +12,7 @@ namespace PhucShop.Application.Catalog.Products
     {
         Task<int> Create(ProductCreateRequest request);
 
-        Task<int> Edit(ProductUpdateRequest request);
+        Task<int> Update(ProductUpdateRequest request);
 
         Task<int> Delete(int ProductId);
 
@@ -21,8 +21,6 @@ namespace PhucShop.Application.Catalog.Products
         Task<bool> UpdateStock(int productId, int addedQuantity);
 
         Task AddViewcount(int productId);
-
-        Task<List<ProductViewModel>> GetAll();
 
         Task<PageResult<ProductViewModel>> GetAllPaging(ProductPagingRequest request);
     }

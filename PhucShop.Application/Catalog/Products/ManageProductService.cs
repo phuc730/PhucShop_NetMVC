@@ -65,15 +65,24 @@ namespace PhucShop.Application.Catalog.Products
             return await _context.SaveChangesAsync();
         }
 
-        public Task<int> Edit(ProductUpdateRequest request)
+        public async Task<int> Update(ProductUpdateRequest request)
         {
-            throw new NotImplementedException();
+            var product = await _context.Products.FindAsync(request.Id);
+            var productTranslation = await _context.ProductTranslations.FirstOrDefaultAsync(x => x.ProductId == request.Id
+            && x.LanguageId == request.LanguageId);
+
+            if(product == null || productTranslation == null) throw new pShopException($"Cannot find a product: {request.Id}");
+
+            productTranslation.Name = request.Name;
+            productTranslation.SeoAlias = request.SeoAlias;
+            productTranslation.SeoDescription = request.SeoDescription;
+            productTranslation.SeoTitle = request.SeoTitle;
+            productTranslation.Description = request.Description;
+            productTranslation.Details = request.Details;
+
+            return await _context.SaveChangesAsync();
         }
 
-        public Task<List<ProductViewModel>> GetAll()
-        {
-            throw new NotImplementedException();
-        }
 
         public async Task<PageResult<ProductViewModel>> GetAllPaging(ProductPagingRequest request)
         {
@@ -123,14 +132,22 @@ namespace PhucShop.Application.Catalog.Products
             return pagedResult;
         }
 
-        public Task<bool> UpdatePrice(int productId, decimal newPrice)
+        public async Task<bool> UpdatePrice(int productId, decimal newPrice)
         {
-            throw new NotImplementedException();
+            var product = await _context.Products.FindAsync(productId);
+            if (product == null) throw new pShopException($"Cannot find a product: {productId}");
+
+            product.Price = newPrice;
+            return await _context.SaveChangesAsync() > 0;
         }
 
-        public Task<bool> UpdateStock(int productId, int addedQuantity)
+        public async Task<bool> UpdateStock(int productId, int addedQuantity)
         {
-            throw new NotImplementedException();
+            var product = await _context.Products.FindAsync(productId);
+            if (product == null) throw new pShopException($"Cannot find a product: {productId}");
+
+            product.Stock = addedQuantity;
+            return await _context.SaveChangesAsync() > 0;
         }
     }
 }
