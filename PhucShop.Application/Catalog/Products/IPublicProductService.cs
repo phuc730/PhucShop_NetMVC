@@ -10,7 +10,7 @@ namespace PhucShop.Application.Catalog.Products
 {
     public interface IPublicProductService
     {
-       Task<PageResult<ProductViewModel>> GetAllByCategoryId(PublicProductPagingRequest request);
+       Task<PageResult<ProductViewModel>> GetAllByCategoryId(string languageId, PublicProductPagingRequest request);
 
         Task<List<ProductViewModel>> GetAll(string languageId);
     }

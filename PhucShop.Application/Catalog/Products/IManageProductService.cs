@@ -1,6 +1,5 @@
-﻿
-using Microsoft.AspNetCore.Http;
-using PhucShop.ViewModels.Catalog.Product;
+﻿using Microsoft.AspNetCore.Http;
+using PhucShop.ViewModels.Catalog.ProductImage;
 using PhucShop.ViewModels.Catalog.Products;
 using PhucShop.ViewModels.Common;
 using System;
@@ -28,12 +27,14 @@ namespace PhucShop.Application.Catalog.Products
 
         Task<PageResult<ProductViewModel>> GetAllPaging(ManageProductPagingRequest request);
 
-        Task<int> AddImages(int productId, List<IFormFile> files);
+        Task<int> AddImage(int productid, ProductImageCreateRequest request);
 
-        Task<int> RemoveImages(int imageId);
+        Task<int> UpdateImage(int imageId, ProductImageUpdateRequest request);
 
-        Task<int> UpdateImage(int imageId, string caption, bool isDefault);
+        Task<int> DeleteImage(int imageId);
 
-        Task<List<ProductImageViewModel>> GetListImage(int productId);
+        Task<List<ProductImageViewModel>> GetListImages(int productId);
+
+        Task<ProductImageViewModel> GetImageById(int imageId);
     }
 }
