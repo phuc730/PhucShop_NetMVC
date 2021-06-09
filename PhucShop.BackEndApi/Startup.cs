@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,7 +9,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using PhucShop.Application.Catalog.Products;
 using PhucShop.Application.Common;
+using PhucShop.Application.System.Users;
 using PhucShop.Data.EF;
+using PhucShop.Data.Entities;
 using PhucShop.Utilities.Constants;
 using System;
 using System.Collections.Generic;
@@ -32,10 +35,17 @@ namespace PhucShop.BackEndApi
             services.AddDbContext<PShopDbContext>(options =>
                options.UseSqlServer(Configuration.GetConnectionString(SystemConstants.MainConnectionString)));
 
+            services.AddIdentity<AppUser, AppRole>()
+                .AddEntityFrameworkStores<PShopDbContext>()
+                .AddDefaultTokenProviders();
             //Delare DI
             services.AddTransient<IStorageService, FileStorageService>();
             services.AddTransient<IPublicProductService, PublicProductService>();
             services.AddTransient<IManageProductService, ManageProductService>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
+            services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();
+            services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
 
             services.AddControllersWithViews();
 
