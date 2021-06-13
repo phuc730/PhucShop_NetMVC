@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PhucShop.ViewModels.System
+namespace PhucShop.ViewModels.System.Users
 {
     public class RegisterRequest
     {

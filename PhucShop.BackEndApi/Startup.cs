@@ -17,7 +17,7 @@ using PhucShop.Application.System.Users;
 using PhucShop.Data.EF;
 using PhucShop.Data.Entities;
 using PhucShop.Utilities.Constants;
-using PhucShop.ViewModels.System;
+using PhucShop.ViewModels.System.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;

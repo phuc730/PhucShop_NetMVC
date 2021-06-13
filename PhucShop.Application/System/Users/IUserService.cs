@@ -1,4 +1,4 @@
-﻿using PhucShop.ViewModels.System;
+﻿using PhucShop.ViewModels.System.Users;
 using System;
 using System.Collections.Generic;
 using System.Text;
