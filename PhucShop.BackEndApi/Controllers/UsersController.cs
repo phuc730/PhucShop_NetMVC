@@ -1,11 +1,17 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Logging;
+using Microsoft.IdentityModel.Tokens;
 using PhucShop.Application.System.Users;
 using PhucShop.ViewModels.System.Users;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace PhucShop.BackEndApi.Controllers
@@ -15,10 +21,12 @@ namespace PhucShop.BackEndApi.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IConfiguration _configuration;
 
-        public UsersController(IUserService userService)
+        public UsersController(IUserService userService, IConfiguration configuration)
         {
             _userService = userService;
+            _configuration = configuration;
         }
 
         //AllowAninymous su dung de khi chua dang nhap thi van su dung dc chuc nang nay
@@ -37,7 +45,7 @@ namespace PhucShop.BackEndApi.Controllers
                 return BadRequest("UserName or PassWord is incorrect");
             }
 
-            return Ok(new { token = resultToken });
+            return Ok(resultToken);
         }
 
         [HttpPost("register")]
