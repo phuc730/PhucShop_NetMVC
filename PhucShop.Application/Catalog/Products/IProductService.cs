@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace PhucShop.Application.Catalog.Products
 {
-    public interface IManageProductService
+    public interface IProductService
     {
         Task<int> Create(ProductCreateRequest request);
 
@@ -36,5 +36,7 @@ namespace PhucShop.Application.Catalog.Products
         Task<List<ProductImageViewModel>> GetListImages(int productId);
 
         Task<ProductImageViewModel> GetImageById(int imageId);
+
+        Task<PageResult<ProductViewModel>> GetAllByCategoryId(string languageId, PublicProductPagingRequest request);
     }
 }

@@ -16,20 +16,17 @@ namespace PhucShop.BackEndApi.Controllers
     [Authorize]
     public class ProductsController : ControllerBase
     {
-        private readonly IPublicProductService _publicProductService;
+        private readonly IProductService _manageProductService;
 
-        private readonly IManageProductService _manageProductService;
-
-        public ProductsController(IPublicProductService publicProductService, IManageProductService manageProductService)
+        public ProductsController(IProductService manageProductService)
         {
-            _publicProductService = publicProductService;
             _manageProductService = manageProductService;
         }
 
         [HttpGet("{languageId}")]
         public async Task<IActionResult> GetAllPagging(string languageId, [FromQuery] PublicProductPagingRequest request)
         {
-            var product = await _publicProductService.GetAllByCategoryId(languageId, request);
+            var product = await _manageProductService.GetAllByCategoryId(languageId, request);
             return Ok(product);
         }
 

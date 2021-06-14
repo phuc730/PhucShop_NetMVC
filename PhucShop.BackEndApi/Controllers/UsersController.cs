@@ -18,6 +18,7 @@ namespace PhucShop.BackEndApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -64,6 +65,13 @@ namespace PhucShop.BackEndApi.Controllers
             }
 
             return Ok();
+        }
+
+        [HttpGet("paging")]
+        public async Task<IActionResult> GetAllPaging([FromQuery] UserPagingRequest request)
+        {
+            var users = await _userService.GetUsersPaging(request);
+            return Ok(users);
         }
     }
 }
