@@ -12,5 +12,7 @@ namespace PhucShop.ApiIntegration
         Task<string> Authenticate(LoginRequest request);
 
         Task<PageResult<UserViewModel>> GetUsersPaging(UserPagingRequest request);
+
+        Task<bool> RegisterUser(RegisterRequest request);
     }
 }

@@ -18,7 +18,6 @@ namespace PhucShop.BackEndApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -43,7 +42,7 @@ namespace PhucShop.BackEndApi.Controllers
             var resultToken = await _userService.Authencate(request);
             if (string.IsNullOrEmpty(resultToken))
             {
-                return BadRequest("UserName or PassWord is incorrect");
+                return BadRequest("Username or Password is incorrect");
             }
 
             return Ok(resultToken);
@@ -68,6 +67,7 @@ namespace PhucShop.BackEndApi.Controllers
         }
 
         [HttpGet("paging")]
+        [Authorize]
         public async Task<IActionResult> GetAllPaging([FromQuery] UserPagingRequest request)
         {
             var users = await _userService.GetUsersPaging(request);
