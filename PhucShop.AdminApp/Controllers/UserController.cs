@@ -34,7 +34,6 @@ namespace PhucShop.AdminApp.Controllers
 
             var request = new UserPagingRequest()
             {
-                BearerToken = session,
                 KeyWord = keyWord,
                 PageIndex = pageIndex,
                 PageSize = pageSize
@@ -42,7 +41,7 @@ namespace PhucShop.AdminApp.Controllers
 
             var data = await _userApiClient.GetUsersPaging(request);
 
-            return View(data);
+            return View(data.ResultObj);
         }
 
         [HttpPost]
@@ -69,8 +68,48 @@ namespace PhucShop.AdminApp.Controllers
 
             var result = await _userApiClient.RegisterUser(request);
 
-            if (result)
+            if (result.IsSuccessed)
                 return RedirectToAction("Index");
+            ModelState.AddModelError("", result.Message);
+            return View(request);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            var result = await _userApiClient.GetById(id);
+
+            if (result.IsSuccessed)
+            {
+                var user = result.ResultObj;
+                var updateRequest = new UserUpdateRequest()
+                {
+                    Dob = user.Dob,
+                    Email = user.Email,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    PhoneNumber = user.PhoneNumber,
+                    id = id
+                };
+                return View(updateRequest);
+            }
+            return RedirectToAction("Error", "Home");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(UserUpdateRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            var result = await _userApiClient.Update(request.id, request);
+
+            if (result.IsSuccessed)
+                return RedirectToAction("Index");
+
+            ModelState.AddModelError("", result.Message);
             return View(request);
         }
     }

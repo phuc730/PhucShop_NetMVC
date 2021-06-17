@@ -9,10 +9,14 @@ namespace PhucShop.ApiIntegration
 {
     public interface IUserApiClient
     {
-        Task<string> Authenticate(LoginRequest request);
+        Task<ApiResult<string>> Authenticate(LoginRequest request);
 
-        Task<PageResult<UserViewModel>> GetUsersPaging(UserPagingRequest request);
+        Task<ApiResult<PageResult<UserViewModel>>> GetUsersPaging(UserPagingRequest request);
 
-        Task<bool> RegisterUser(RegisterRequest request);
+        Task<ApiResult<bool>> RegisterUser(RegisterRequest request);
+
+        Task<ApiResult<bool>> Update(Guid id, UserUpdateRequest request);
+
+        Task<ApiResult<UserViewModel>> GetById(Guid id);
     }
 }

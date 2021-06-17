@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -31,13 +32,16 @@ namespace PhucShop.Application.System.Users
             _config = config;
         }
 
-        public async Task<string> Authencate(LoginRequest request)
+        public async Task<ApiResult<string>> Authencate(LoginRequest request)
         {
             var user = await _userManager.FindByNameAsync(request.UserName);
             if (user == null) return null;
 
             var result = await _signInManager.PasswordSignInAsync(user, request.PassWord, request.RememberMe, true);
-            if (!result.Succeeded) return null;
+            if (!result.Succeeded)
+            {
+                return new ApiResultError<string>("Login fail!");
+            }
 
             var roles = _userManager.GetRolesAsync(user);
             // dang nhap thanh cong thi se lay ra email, firstName va cac role cua user
@@ -58,10 +62,31 @@ namespace PhucShop.Application.System.Users
                 expires: DateTime.Now.AddHours(3),
                 signingCredentials: creds);
 
-            return (new JwtSecurityTokenHandler().WriteToken(token));
+            return new ApiResultSuccessed<string>(new JwtSecurityTokenHandler().WriteToken(token));
         }
 
-        public async Task<PageResult<UserViewModel>> GetUsersPaging(UserPagingRequest request)
+        public async Task<ApiResult<UserViewModel>> GetById(Guid id)
+        {
+            var user = await _userManager.FindByIdAsync(id.ToString());
+
+            if (user == null)
+            {
+                return new ApiResultError<UserViewModel>("User not exists");
+            }
+
+            var userViewModel = new UserViewModel()
+            {
+                Email = user.Email,
+                Dob = user.Dob,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                PhoneNumber = user.PhoneNumber
+            };
+
+            return new ApiResultSuccessed<UserViewModel>(userViewModel);
+        }
+
+        public async Task<ApiResult<PageResult<UserViewModel>>> GetUsersPaging(UserPagingRequest request)
         {
             var query = _userManager.Users;
 
@@ -93,16 +118,22 @@ namespace PhucShop.Application.System.Users
                 TotalRecord = totalRow,
                 Items = data
             };
-            return pagedResult;
+            return new ApiResultSuccessed<PageResult<UserViewModel>>(pagedResult);
         }
 
-        public async Task<bool> Register(RegisterRequest request)
+        public async Task<ApiResult<bool>> Register(RegisterRequest request)
         {
             var userName = await _userManager.FindByNameAsync(request.UserName);
-            if (userName != null) return false;
+            if (userName != null)
+            {
+                return new ApiResultError<bool>("Username is exists");
+            }
 
             var Email = await _userManager.FindByEmailAsync(request.Email);
-            if (Email != null) return false;
+            if (Email != null)
+            {
+                return new ApiResultError<bool>("Email is exists");
+            }
 
             var user = new AppUser()
             {
@@ -115,9 +146,36 @@ namespace PhucShop.Application.System.Users
             };
 
             var result = await _userManager.CreateAsync(user, request.PassWord);
-            if (result.Succeeded) return true;
+            if (result.Succeeded)
+            {
+                return new ApiResultSuccessed<bool>();
+            }
 
-            return false;
+            return new ApiResultError<bool>("Register unsuccess!");
+        }
+
+        public async Task<ApiResult<bool>> Update(Guid id, UserUpdateRequest request)
+        {
+            var Email = await _userManager.Users.AnyAsync(x => x.Email == request.Email && x.Id != id);
+            if (Email)
+            {
+                return new ApiResultError<bool>("Email is exists");
+            }
+            var user = await _userManager.FindByIdAsync(id.ToString());
+
+            user.Dob = request.Dob;
+            user.FirstName = request.FirstName;
+            user.LastName = request.LastName;
+            user.PhoneNumber = request.PhoneNumber;
+            user.Email = request.Email;
+
+            var result = await _userManager.UpdateAsync(user);
+            if (result.Succeeded)
+            {
+                return new ApiResultSuccessed<bool>();
+            }
+
+            return new ApiResultError<bool>("Update unsuccess!");
         }
     }
 }
