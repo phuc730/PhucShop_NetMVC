@@ -40,7 +40,8 @@ namespace PhucShop.AdminApp.Controllers
             };
 
             var data = await _userApiClient.GetUsersPaging(request);
-
+            //view bag dung de giu ky tu khi tim kiem kh bi xoa trong o tim kiem
+            ViewBag.Keyword = keyWord;
             return View(data.ResultObj);
         }
 

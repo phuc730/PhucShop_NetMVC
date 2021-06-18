@@ -35,7 +35,7 @@ namespace PhucShop.Application.System.Users
         public async Task<ApiResult<string>> Authencate(LoginRequest request)
         {
             var user = await _userManager.FindByNameAsync(request.UserName);
-            if (user == null) return null;
+            if (user == null) return new ApiResultError<string>("Username is not exists!");
 
             var result = await _signInManager.PasswordSignInAsync(user, request.PassWord, request.RememberMe, true);
             if (!result.Succeeded)

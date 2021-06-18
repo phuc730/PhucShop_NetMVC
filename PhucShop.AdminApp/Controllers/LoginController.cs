@@ -38,8 +38,9 @@ namespace PhucShop.AdminApp.Controllers
 
             var token = await _userApiClient.Authenticate(request);
 
-            if (token.Message == "Login fail!")
+            if (token.ResultObj == null)
             {
+                ModelState.AddModelError("", token.Message);
                 return View();
             }
 
