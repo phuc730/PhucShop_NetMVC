@@ -45,6 +45,25 @@ namespace PhucShop.ApiIntegration
             return JsonConvert.DeserializeObject<ApiResultError<string>>(result);
         }
 
+        public async Task<ApiResult<bool>> Delete(Guid id)
+        {
+            //lay api tu backendApi
+            var client = _httpClientFactory.CreateClient();
+            var session = _httpContextAccessor.HttpContext.Session.GetString("Token");
+            //phai co token de thuc hien
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            var response = await client.DeleteAsync($"/api/users/{id}");
+
+            var body = await response.Content.ReadAsStringAsync();
+
+            if (response.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<ApiResultSuccessed<bool>>(body);
+            }
+            return JsonConvert.DeserializeObject<ApiResultError<bool>>(body);
+        }
+
         public async Task<ApiResult<UserViewModel>> GetById(Guid id)
         {
             //lay api tu backendApi

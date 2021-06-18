@@ -65,6 +65,24 @@ namespace PhucShop.Application.System.Users
             return new ApiResultSuccessed<string>(new JwtSecurityTokenHandler().WriteToken(token));
         }
 
+        public async Task<ApiResult<bool>> Delete(Guid id)
+        {
+            var user = await _userManager.FindByIdAsync(id.ToString());
+
+            if (user == null)
+            {
+                return new ApiResultError<bool>("User not exists");
+            }
+
+            var result = await _userManager.DeleteAsync(user);
+            if (result.Succeeded)
+            {
+                return new ApiResultSuccessed<bool>();
+            }
+
+            return new ApiResultError<bool>("Delete fail!");
+        }
+
         public async Task<ApiResult<UserViewModel>> GetById(Guid id)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());

@@ -99,5 +99,13 @@ namespace PhucShop.BackEndApi.Controllers
             var user = await _userService.GetById(id);
             return Ok(user);
         }
+
+        [HttpDelete("{id}")]
+        [Authorize]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var user = await _userService.Delete(id);
+            return Ok(user);
+        }
     }
 }
