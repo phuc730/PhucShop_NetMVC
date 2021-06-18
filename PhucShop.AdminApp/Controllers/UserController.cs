@@ -42,6 +42,11 @@ namespace PhucShop.AdminApp.Controllers
             var data = await _userApiClient.GetUsersPaging(request);
             //view bag dung de giu ky tu khi tim kiem kh bi xoa trong o tim kiem
             ViewBag.Keyword = keyWord;
+
+            if (TempData["result"] != null)
+            {
+                ViewBag.SuccessMsg = TempData["result"]; 
+            }
             return View(data.ResultObj);
         }
 
@@ -77,7 +82,11 @@ namespace PhucShop.AdminApp.Controllers
             var result = await _userApiClient.RegisterUser(request);
 
             if (result.IsSuccessed)
+            {
+                TempData["result"] = "Success";
                 return RedirectToAction("Index");
+            }
+
             ModelState.AddModelError("", result.Message);
             return View(request);
         }
@@ -115,7 +124,10 @@ namespace PhucShop.AdminApp.Controllers
             var result = await _userApiClient.Update(request.id, request);
 
             if (result.IsSuccessed)
+            {
+                TempData["result"] = "Success";
                 return RedirectToAction("Index");
+            }
 
             ModelState.AddModelError("", result.Message);
             return View(request);
@@ -141,7 +153,10 @@ namespace PhucShop.AdminApp.Controllers
             var result = await _userApiClient.Delete(request.Id);
 
             if (result.IsSuccessed)
+            {
+                TempData["result"] = "Success";
                 return RedirectToAction("Index");
+            }
 
             ModelState.AddModelError("", result.Message);
             return View(request);

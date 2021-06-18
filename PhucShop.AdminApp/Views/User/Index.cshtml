@@ -7,8 +7,16 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@section Scripts{
+    <script>
+        setTimeout(function () {
+            $('#msgAlert').fadeOut('slow');
+        }, 2000);
+    </script>
+}
+
 <div class="container-fluid">
-    <h1 class="mt-4">Danh sách người dùng</h1>
+    <h1 class="mt-4">List of users</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a style="text-decoration: none" href="/">Home</a></li>
         <li class="breadcrumb-item active">List of users</li>
