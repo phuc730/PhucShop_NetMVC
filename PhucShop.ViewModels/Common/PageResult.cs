@@ -4,9 +4,8 @@ using System.Text;
 
 namespace PhucShop.ViewModels.Common
 {
-    public class PageResult<T>
+    public class PageResult<T> : PageResultBase
     {
-        public int TotalRecord { get; set; }
         public List<T> Items { get; set; }
     }
 }

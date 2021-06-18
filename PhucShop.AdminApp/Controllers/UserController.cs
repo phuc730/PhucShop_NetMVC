@@ -28,7 +28,7 @@ namespace PhucShop.AdminApp.Controllers
             _configuration = configuration;
         }
 
-        public async Task<IActionResult> Index(string keyWord, int pageIndex = 1, int pageSize = 10)
+        public async Task<IActionResult> Index(string keyWord, int pageIndex = 1, int pageSize = 5)
         {
             var session = HttpContext.Session.GetString("Token");
 
@@ -50,6 +50,13 @@ namespace PhucShop.AdminApp.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             HttpContext.Session.Remove("Token");
             return RedirectToAction("Index", "Login");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Detail(Guid id)
+        {
+            var result = await _userApiClient.GetById(id);
+            return View(result.ResultObj);
         }
 
         [HttpGet]

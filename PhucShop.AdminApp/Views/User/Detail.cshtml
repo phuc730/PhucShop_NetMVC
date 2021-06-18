@@ -1,0 +1,62 @@
+﻿@model PhucShop.ViewModels.System.Users.UserViewModel
+
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <h1 class="mt-4">Detail User</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a style="text-decoration: none" asp-controller="Home" asp-action="Index">Home</a></li>
+    </ol>
+    <div class="row">
+        <div class="card-header">
+            <a class="btn btn-success" asp-action="Index" asp-controller="User">Back to list</a>
+        </div>
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Id)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Id)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.FirstName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.FirstName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.LastName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.LastName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.PhoneNumber)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.UserName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.UserName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Dob)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Dob)
+            </dd>
+        </dl>
+    </div>
+</div>

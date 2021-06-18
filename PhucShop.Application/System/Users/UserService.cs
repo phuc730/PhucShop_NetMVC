@@ -80,7 +80,9 @@ namespace PhucShop.Application.System.Users
                 Dob = user.Dob,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                PhoneNumber = user.PhoneNumber
+                PhoneNumber = user.PhoneNumber,
+                Id = user.Id,
+                UserName = user.UserName
             };
 
             return new ApiResultSuccessed<UserViewModel>(userViewModel);
@@ -115,7 +117,9 @@ namespace PhucShop.Application.System.Users
             //4. Select and projection
             var pagedResult = new PageResult<UserViewModel>()
             {
-                TotalRecord = totalRow,
+                TotalRecords = totalRow,
+                PageSize = request.PageSize,
+                PageIndex = request.PageIndex,
                 Items = data
             };
             return new ApiResultSuccessed<PageResult<UserViewModel>>(pagedResult);
