@@ -92,6 +92,8 @@ namespace PhucShop.Application.System.Users
                 return new ApiResultError<UserViewModel>("User not exists");
             }
 
+            var roles = await _userManager.GetRolesAsync(user);
+
             var userViewModel = new UserViewModel()
             {
                 Email = user.Email,
@@ -100,7 +102,8 @@ namespace PhucShop.Application.System.Users
                 LastName = user.LastName,
                 PhoneNumber = user.PhoneNumber,
                 Id = user.Id,
-                UserName = user.UserName
+                UserName = user.UserName,
+                Roles = roles
             };
 
             return new ApiResultSuccessed<UserViewModel>(userViewModel);
@@ -174,6 +177,39 @@ namespace PhucShop.Application.System.Users
             }
 
             return new ApiResultError<bool>("Register unsuccess!");
+        }
+
+        public async Task<ApiResult<bool>> RoleAssign(Guid id, RoleAssignRequest request)
+        {
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            if (user == null)
+            {
+                return new ApiResultError<bool>("Username is exists");
+            }
+            // xoa nhung role khong select
+            var removeRoles = request.Roles.Where(x => x.Selected == false).Select(x => x.Name).ToList();
+            foreach (var roleName in removeRoles)
+            {
+                // kiem tra role da ton tai chua. Neu chua thi moi add role moi
+                if (await _userManager.IsInRoleAsync(user, roleName) == true)
+                {
+                    await _userManager.RemoveFromRoleAsync(user, roleName);
+                }
+            }
+            await _userManager.RemoveFromRolesAsync(user, removeRoles);
+
+            // add nhung role da select
+            var addedRoles = request.Roles.Where(x => x.Selected).Select(x => x.Name).ToList();
+            foreach (var roleName in addedRoles)
+            {
+                // kiem tra role da ton tai chua. Neu chua thi moi add role moi
+                if (await _userManager.IsInRoleAsync(user, roleName) == false)
+                {
+                    await _userManager.AddToRolesAsync(user, addedRoles);
+                }
+            }
+
+            return new ApiResultError<bool>("Update roles success!");
         }
 
         public async Task<ApiResult<bool>> Update(Guid id, UserUpdateRequest request)

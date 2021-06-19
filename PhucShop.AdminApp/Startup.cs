@@ -47,6 +47,7 @@ namespace PhucShop.AdminApp
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IUserApiClient, UserApiClient>();
+            services.AddTransient<IRoleApiClient, RoleApiClient>();
 
             //config render
             IMvcBuilder builder = services.AddRazorPages();
