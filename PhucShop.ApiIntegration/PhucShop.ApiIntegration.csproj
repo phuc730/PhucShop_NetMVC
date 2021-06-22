@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PhucShop.Utilities\PhucShop.Utilities.csproj" />
     <ProjectReference Include="..\PhucShop.ViewModels\PhucShop.ViewModels.csproj" />
   </ItemGroup>
 

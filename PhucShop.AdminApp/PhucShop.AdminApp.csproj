@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PhucShop.ApiIntegration\PhucShop.ApiIntegration.csproj" />
+    <ProjectReference Include="..\PhucShop.Utilities\PhucShop.Utilities.csproj" />
     <ProjectReference Include="..\PhucShop.ViewModels\PhucShop.ViewModels.csproj" />
   </ItemGroup>
 

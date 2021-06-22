@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using PhucShop.ApiIntegration;
+using PhucShop.Utilities.Constants;
 using PhucShop.ViewModels.System.Users;
 using System;
 using System.Collections.Generic;
@@ -51,7 +52,8 @@ namespace PhucShop.AdminApp.Controllers
                 IsPersistent = false
             };
 
-            HttpContext.Session.SetString("Token", token.ResultObj);
+            HttpContext.Session.SetString(SystemConstants.AppSettings.DefaultLanguageId, _configuration["DefaultLanguageId"]);
+            HttpContext.Session.SetString(SystemConstants.AppSettings.Token, token.ResultObj);
 
             await HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,

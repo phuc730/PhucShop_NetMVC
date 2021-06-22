@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using PhucShop.Application.Catalog.Products;
 using PhucShop.Application.Common;
+using PhucShop.Application.System.Languages;
 using PhucShop.Application.System.Roles;
 using PhucShop.Application.System.Users;
 using PhucShop.Data.EF;
@@ -49,6 +50,7 @@ namespace PhucShop.BackEndApi
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IRoleService, RoleService>();
+            services.AddTransient<ILanguageService, LanguageService>();
             services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
             services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();
             services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
