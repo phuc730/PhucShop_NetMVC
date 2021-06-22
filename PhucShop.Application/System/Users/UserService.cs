@@ -205,11 +205,11 @@ namespace PhucShop.Application.System.Users
                 // kiem tra role da ton tai chua. Neu chua thi moi add role moi
                 if (await _userManager.IsInRoleAsync(user, roleName) == false)
                 {
-                    await _userManager.AddToRolesAsync(user, addedRoles);
+                    await _userManager.AddToRoleAsync(user, roleName);
                 }
             }
 
-            return new ApiResultError<bool>("Update roles success!");
+            return new ApiResultSuccessed<bool>();
         }
 
         public async Task<ApiResult<bool>> Update(Guid id, UserUpdateRequest request)
