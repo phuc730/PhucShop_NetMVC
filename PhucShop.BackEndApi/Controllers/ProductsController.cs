@@ -23,10 +23,10 @@ namespace PhucShop.BackEndApi.Controllers
             _manageProductService = manageProductService;
         }
 
-        [HttpGet("{languageId}")]
-        public async Task<IActionResult> GetAllPagging(string languageId, [FromQuery] PublicProductPagingRequest request)
+        [HttpGet("pagings")]
+        public async Task<IActionResult> GetAllPagging([FromQuery] ManageProductPagingRequest request)
         {
-            var product = await _manageProductService.GetAllByCategoryId(languageId, request);
+            var product = await _manageProductService.GetAllPaging(request);
             return Ok(product);
         }
 

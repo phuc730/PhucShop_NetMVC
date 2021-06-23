@@ -37,6 +37,6 @@ namespace PhucShop.Application.Catalog.Products
 
         Task<ProductImageViewModel> GetImageById(int imageId);
 
-        Task<PageResult<ProductViewModel>> GetAllByCategoryId(string languageId, PublicProductPagingRequest request);
+        Task<PageResult<ProductViewModel>> GetAllByCategoryId(PublicProductPagingRequest request);
     }
 }
