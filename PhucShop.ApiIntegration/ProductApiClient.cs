@@ -76,7 +76,8 @@ namespace PhucShop.ApiIntegration
                ($"/api/products/pagings?pageIndex={request.PageIndex}" +
                 $"&pageSize={request.PageSize}" +
                 $"&keyWord={request.KeyWord}" +
-                $"&languageId={request.LanguageId}");
+                $"&languageId={request.LanguageId}" +
+                $"&categoryId={request.CategoryId}");
             return data;
         }
     }
