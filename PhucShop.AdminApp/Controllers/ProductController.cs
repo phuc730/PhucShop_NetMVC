@@ -44,5 +44,32 @@ namespace PhucShop.AdminApp.Controllers
             }
             return View(data);
         }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> Create([FromForm] ProductCreateRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            var result = await _productApiClient.CreateProduct(request);
+
+            if (result)
+            {
+                TempData["result"] = "Success";
+                return RedirectToAction("Index");
+            }
+
+            ModelState.AddModelError("", "Fail");
+            return View(request);
+        }
     }
 }

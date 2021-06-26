@@ -10,5 +10,7 @@ namespace PhucShop.ApiIntegration
     public interface IProductApiClient
     {
         Task<PageResult<ProductViewModel>> GetPagings(ManageProductPagingRequest request);
+
+        Task<bool> CreateProduct(ProductCreateRequest request);
     }
 }

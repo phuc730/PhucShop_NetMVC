@@ -40,6 +40,7 @@ namespace PhucShop.BackEndApi.Controllers
         }
 
         [HttpPost]
+        [Consumes("multipart/form-data")]
         public async Task<IActionResult> Create([FromForm] ProductCreateRequest request)
         {
             //modelState la kiem tra co so du lieu nhap vao
