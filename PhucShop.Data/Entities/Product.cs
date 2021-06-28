@@ -12,6 +12,8 @@ namespace PhucShop.Data.Entities
         public int Stock { get; set; }
         public int ViewCount { get; set; }
         public DateTime DateCreated { get; set; }
+
+        public bool? IsFeature { get; set; }
         public string SeoAlias { get; set; }
 
         public List<ProductInCategory> ProductInCategories { get; set; }
@@ -21,7 +23,7 @@ namespace PhucShop.Data.Entities
         public List<Cart> Carts { get; set; }
 
         public List<ProductTranslation> ProductTranslations { get; set; }
-        
+
         public List<ProductImage> ProductImages { get; set; }
     }
 }

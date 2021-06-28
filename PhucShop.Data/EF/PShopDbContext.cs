@@ -14,9 +14,8 @@ namespace PhucShop.Data.EF
     {
         public PShopDbContext(DbContextOptions options) : base(options)
         {
-
         }
-      
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Config DB using FluentAPI
@@ -36,6 +35,7 @@ namespace PhucShop.Data.EF
             modelBuilder.ApplyConfiguration(new PromotionConfiguration());
             modelBuilder.ApplyConfiguration(new TransactionConfiguration());
             modelBuilder.ApplyConfiguration(new ProductImageConfiguration());
+            modelBuilder.ApplyConfiguration(new SlideConfiguration());
 
             modelBuilder.ApplyConfiguration(new AppUserConfiguration());
             modelBuilder.ApplyConfiguration(new AppRoleConfiguration());
@@ -49,6 +49,7 @@ namespace PhucShop.Data.EF
             modelBuilder.Seed();
             // base.OnModelCreating(modelBuilder);
         }
+
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<AppConfig> AppConfigs { get; set; }
