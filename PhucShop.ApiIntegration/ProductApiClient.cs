@@ -97,6 +97,12 @@ namespace PhucShop.ApiIntegration
             return data;
         }
 
+        public async Task<List<ProductViewModel>> GetFeaturedProducts(int take, string languageId)
+        {
+            var data = await base.GetListAsync<ProductViewModel>($"/api/products/featured/{languageId}/{take}");
+            return data;
+        }
+
         public async Task<PageResult<ProductViewModel>> GetPagings(ManageProductPagingRequest request)
         {
             var data = await base.GetAsync<PageResult<ProductViewModel>>

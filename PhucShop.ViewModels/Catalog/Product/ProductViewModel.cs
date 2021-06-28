@@ -24,6 +24,8 @@ namespace PhucShop.ViewModels.Catalog.Products
         public string SeoAlias { get; set; }
         public string LanguageId { set; get; }
 
+        public string ThumbnailImage { get; set; }
+
         public List<string> Categories { get; set; } = new List<string>();
     }
 }

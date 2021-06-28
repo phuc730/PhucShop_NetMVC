@@ -41,5 +41,7 @@ namespace PhucShop.Application.Catalog.Products
         Task<PageResult<ProductViewModel>> GetAllByCategoryId(PublicProductPagingRequest request);
 
         Task<ApiResult<bool>> CategoryAssign(int id, CategoryAssignRequest request);
+
+        Task<List<ProductViewModel>> GetFeaturedProducts(string languageId, int take);
     }
 }

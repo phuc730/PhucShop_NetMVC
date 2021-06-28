@@ -17,6 +17,7 @@ using PhucShop.Application.Common;
 using PhucShop.Application.System.Languages;
 using PhucShop.Application.System.Roles;
 using PhucShop.Application.System.Users;
+using PhucShop.Application.Utilities.Slides;
 using PhucShop.Data.EF;
 using PhucShop.Data.Entities;
 using PhucShop.Utilities.Constants;
@@ -53,6 +54,7 @@ namespace PhucShop.BackEndApi
             services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<ILanguageService, LanguageService>();
             services.AddTransient<IcategoryService, CategoryService>();
+            services.AddTransient<ISlideService, SlideService>();
 
             services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
             services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();
