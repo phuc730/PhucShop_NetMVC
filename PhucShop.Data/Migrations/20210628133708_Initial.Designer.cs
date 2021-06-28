@@ -10,8 +10,8 @@ using PhucShop.Data.EF;
 namespace PhucShop.Data.Migrations
 {
     [DbContext(typeof(PShopDbContext))]
-    [Migration("20210608165948_ChangeFileLenghtType")]
-    partial class ChangeFileLenghtType
+    [Migration("20210628133708_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -182,7 +182,7 @@ namespace PhucShop.Data.Migrations
                         new
                         {
                             Id = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"),
-                            ConcurrencyStamp = "f71cff2c-a536-4d69-afeb-23c7ca502c2b",
+                            ConcurrencyStamp = "96c5d6b3-8fbc-4d1e-a246-e1deda792744",
                             Description = "Administrator role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -259,7 +259,7 @@ namespace PhucShop.Data.Migrations
                         {
                             Id = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "44cdb83a-3f4b-4f50-9057-f8a62a78f9df",
+                            ConcurrencyStamp = "760bec3e-8ece-473c-953f-68a966cc63ea",
                             Dob = new DateTime(2020, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "nguyenthanhphuc.hcmm@gmail.com",
                             EmailConfirmed = true,
@@ -268,7 +268,7 @@ namespace PhucShop.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "nguyenthanhphuc.hcmm@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAY0MINkAIHdeJwxlfYMKqwUetJhnZM8l86GCnGJpdIRIbjNdg1aNX+hPW1EKyMXYA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEB9mTlFz1k0VveXuwCRmyUYPu9nmjli7G9eIW7W0ypG1PLzuK3D0ck36eYXUIRS5AQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -402,7 +402,7 @@ namespace PhucShop.Data.Migrations
                         {
                             Id = 1,
                             CategoryId = 1,
-                            LanguageId = "vi-VN",
+                            LanguageId = "vi",
                             Name = "Áo nam",
                             SeoAlias = "ao-nam",
                             SeoDescription = "Sản phẩm áo thời trang nam",
@@ -412,7 +412,7 @@ namespace PhucShop.Data.Migrations
                         {
                             Id = 2,
                             CategoryId = 1,
-                            LanguageId = "en-US",
+                            LanguageId = "en",
                             Name = "Men Shirt",
                             SeoAlias = "men-shirt",
                             SeoDescription = "The shirt products for men",
@@ -422,7 +422,7 @@ namespace PhucShop.Data.Migrations
                         {
                             Id = 3,
                             CategoryId = 2,
-                            LanguageId = "vi-VN",
+                            LanguageId = "vi",
                             Name = "Áo nữ",
                             SeoAlias = "ao-nu",
                             SeoDescription = "Sản phẩm áo thời trang nữ",
@@ -432,7 +432,7 @@ namespace PhucShop.Data.Migrations
                         {
                             Id = 4,
                             CategoryId = 2,
-                            LanguageId = "en-US",
+                            LanguageId = "en",
                             Name = "Women Shirt",
                             SeoAlias = "women-shirt",
                             SeoDescription = "The shirt products for women",
@@ -498,13 +498,13 @@ namespace PhucShop.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "vi-VN",
+                            Id = "vi",
                             IsDefault = true,
                             Name = "Tiếng Việt"
                         },
                         new
                         {
-                            Id = "en-US",
+                            Id = "en",
                             IsDefault = false,
                             Name = "English"
                         });
@@ -616,7 +616,7 @@ namespace PhucShop.Data.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2021, 6, 8, 23, 59, 47, 526, DateTimeKind.Local).AddTicks(3428),
+                            DateCreated = new DateTime(2021, 6, 28, 20, 37, 8, 272, DateTimeKind.Local).AddTicks(4948),
                             OriginalPrice = 100000m,
                             Price = 200000m,
                             Stock = 0,
@@ -741,7 +741,7 @@ namespace PhucShop.Data.Migrations
                             Id = 1,
                             Description = "Áo sơ mi nam trắng Việt Tiến",
                             Details = "Áo sơ mi nam trắng Việt Tiến",
-                            LanguageId = "vi-VN",
+                            LanguageId = "vi",
                             Name = "Áo sơ mi nam trắng Việt Tiến",
                             ProductId = 1,
                             SeoAlias = "ao-so-mi-nam-trang-viet-tien",
@@ -753,7 +753,7 @@ namespace PhucShop.Data.Migrations
                             Id = 2,
                             Description = "Viet Tien Men T-Shirt",
                             Details = "Viet Tien Men T-Shirt",
-                            LanguageId = "en-US",
+                            LanguageId = "en",
                             Name = "Viet Tien Men T-Shirt",
                             ProductId = 1,
                             SeoAlias = "viet-tien-men-t-shirt",
