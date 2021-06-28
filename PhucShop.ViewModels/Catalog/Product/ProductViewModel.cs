@@ -1,9 +1,10 @@
-﻿using System;
+﻿using PhucShop.ViewModels.Catalog.Category;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PhucShop.ViewModels.Catalog.Products
-{ 
+{
     public class ProductViewModel
     {
         public int Id { set; get; }
@@ -22,6 +23,6 @@ namespace PhucShop.ViewModels.Catalog.Products
         public string SeoAlias { get; set; }
         public string LanguageId { set; get; }
 
-        public int CategoryId { get; set; }
+        public List<string> Categories { get; set; } = new List<string>();
     }
 }

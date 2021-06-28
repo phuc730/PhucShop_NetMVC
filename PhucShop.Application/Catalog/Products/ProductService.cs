@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 using System.Net.Http.Headers;
 using System.IO;
 using PhucShop.ViewModels.Catalog.ProductImage;
+using PhucShop.ViewModels.Catalog.Product;
 
 namespace PhucShop.Application.Catalog.Products
 {
@@ -138,12 +139,14 @@ namespace PhucShop.Application.Catalog.Products
         public async Task<PageResult<ProductViewModel>> GetAllPaging(ManageProductPagingRequest request)
         {
             //1. Select join
-            var query = from p in _context.Products
-                        join pt in _context.ProductTranslations on p.Id equals pt.ProductId
-                        join pic in _context.ProductInCategories on p.Id equals pic.ProductId
-                        join c in _context.Categories on pic.CategoryId equals c.Id
-                        where pt.LanguageId == request.LanguageId
-                        select new { p, pt, pic };
+            var query = (from p in _context.Products
+                         join pt in _context.ProductTranslations on p.Id equals pt.ProductId
+                         join pic in _context.ProductInCategories on p.Id equals pic.ProductId into ppic
+                         from pic in ppic.DefaultIfEmpty() // left join
+                         join c in _context.Categories on pic.CategoryId equals c.Id into cc
+                         from c in cc.DefaultIfEmpty() //left join
+                         where pt.LanguageId == request.LanguageId
+                         select new { p, pt, pic });
 
             //2. filter
             if (!string.IsNullOrEmpty(request.KeyWord))
@@ -154,10 +157,9 @@ namespace PhucShop.Application.Catalog.Products
                 query = query.Where(p => p.pic.CategoryId == request.CategoryId);
             }
             //3. Paging
-            int totalRow = await query.CountAsync();
+            int totalRow = await query.Select(x => x.p.Id).Distinct().CountAsync();
 
-            var data = await query.Skip((request.PageIndex - 1) * request.PageSize)
-                .Take(request.PageSize)
+            var data = await query.Skip((request.PageIndex - 1) * request.PageSize).Take(request.PageSize)
                 .Select(x => new ProductViewModel()
                 {
                     Id = x.p.Id,
@@ -173,8 +175,7 @@ namespace PhucShop.Application.Catalog.Products
                     SeoTitle = x.pt.SeoTitle,
                     Stock = x.p.Stock,
                     ViewCount = x.p.ViewCount,
-                    CategoryId = x.pic.CategoryId
-                }).ToListAsync();
+                }).Distinct().ToListAsync();
 
             //4. Select and projection
             var pagedResult = new PageResult<ProductViewModel>()
@@ -218,7 +219,11 @@ namespace PhucShop.Application.Catalog.Products
             var product = await _context.Products.FindAsync(Productid);
             var productTranslation = await _context.ProductTranslations.FirstOrDefaultAsync(x => x.ProductId == Productid
             && x.LanguageId == languageId);
-            var productInCategory = await _context.ProductInCategories.FirstOrDefaultAsync(x => x.ProductId == Productid);
+            var categories = await (from c in _context.Categories
+                                    join ct in _context.CategoryTranslations on c.Id equals ct.CategoryId
+                                    join pic in _context.ProductInCategories on c.Id equals pic.CategoryId
+                                    where pic.ProductId == Productid && ct.LanguageId == languageId
+                                    select ct.Name).ToListAsync();
             var productViewModel = new ProductViewModel()
             {
                 Id = product.Id,
@@ -234,7 +239,7 @@ namespace PhucShop.Application.Catalog.Products
                 SeoTitle = productTranslation != null ? productTranslation.SeoTitle : null,
                 Stock = product.Stock,
                 ViewCount = product.ViewCount,
-                CategoryId = productInCategory.CategoryId
+                Categories = categories
             };
             return productViewModel;
         }
@@ -357,7 +362,6 @@ namespace PhucShop.Application.Catalog.Products
                     SeoTitle = x.pt.SeoTitle,
                     Stock = x.p.Stock,
                     ViewCount = x.p.ViewCount,
-                    CategoryId = x.pic.CategoryId
                 }).ToListAsync();
 
             //4. Select and projection
@@ -369,6 +373,36 @@ namespace PhucShop.Application.Catalog.Products
                 Items = data
             };
             return pagedResult;
+        }
+
+        public async Task<ApiResult<bool>> CategoryAssign(int id, CategoryAssignRequest request)
+        {
+            var user = await _context.Products.FindAsync(id);
+            if (user == null)
+            {
+                return new ApiResultError<bool>("Product is exists");
+            }
+            foreach (var category in request.Categories)
+            {
+                // kiem tra category da ton tai chua. Neu chua thi moi add role moi
+                var productInCategory = await _context.ProductInCategories
+                    .FirstOrDefaultAsync(x => x.CategoryId == int.Parse(category.Id) && x.ProductId == id);
+                if (productInCategory != null && category.Selected == false)
+                {
+                    _context.ProductInCategories.Remove(productInCategory);
+                }
+                else if (productInCategory == null && category.Selected == true)
+                {
+                    await _context.ProductInCategories.AddAsync(new ProductInCategory()
+                    {
+                        CategoryId = int.Parse(category.Id),
+                        ProductId = id
+                    });
+                }
+            }
+
+            await _context.SaveChangesAsync();
+            return new ApiResultSuccessed<bool>();
         }
     }
 }

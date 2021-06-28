@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using PhucShop.ViewModels.Catalog.Product;
 using PhucShop.ViewModels.Catalog.ProductImage;
 using PhucShop.ViewModels.Catalog.Products;
 using PhucShop.ViewModels.Common;
@@ -38,5 +39,7 @@ namespace PhucShop.Application.Catalog.Products
         Task<ProductImageViewModel> GetImageById(int imageId);
 
         Task<PageResult<ProductViewModel>> GetAllByCategoryId(PublicProductPagingRequest request);
+
+        Task<ApiResult<bool>> CategoryAssign(int id, CategoryAssignRequest request);
     }
 }

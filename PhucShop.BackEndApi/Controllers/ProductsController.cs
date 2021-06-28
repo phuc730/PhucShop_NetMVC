@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PhucShop.Application.Catalog.Products;
+using PhucShop.ViewModels.Catalog.Product;
 using PhucShop.ViewModels.Catalog.ProductImage;
 using PhucShop.ViewModels.Catalog.Products;
 using System;
@@ -159,6 +160,23 @@ namespace PhucShop.BackEndApi.Controllers
                 return BadRequest();
 
             return Ok();
+        }
+
+        [HttpPut("{id}/categories")]
+        public async Task<IActionResult> CategoryAssign(int id, [FromBody] CategoryAssignRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await _manageProductService.CategoryAssign(id, request);
+            if (!result.IsSuccessed)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
         }
     }
 }
