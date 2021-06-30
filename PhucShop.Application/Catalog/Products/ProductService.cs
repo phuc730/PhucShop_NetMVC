@@ -156,13 +156,15 @@ namespace PhucShop.Application.Catalog.Products
         {
             //1. Select join
             var query = (from p in _context.Products
+                         join pi in _context.ProductImages on p.Id equals pi.ProductId into pii
+                         from pi in pii.DefaultIfEmpty()
                          join pt in _context.ProductTranslations on p.Id equals pt.ProductId
                          join pic in _context.ProductInCategories on p.Id equals pic.ProductId into ppic
                          from pic in ppic.DefaultIfEmpty() // left join
                          join c in _context.Categories on pic.CategoryId equals c.Id into cc
                          from c in cc.DefaultIfEmpty() //left join
-                         where pt.LanguageId == request.LanguageId
-                         select new { p, pt, pic });
+                         where pt.LanguageId == request.LanguageId && pi.IsDefault == true
+                         select new { p, pt, pic, pi });
 
             //2. filter
             if (!string.IsNullOrEmpty(request.KeyWord))
@@ -191,6 +193,7 @@ namespace PhucShop.Application.Catalog.Products
                     SeoTitle = x.pt.SeoTitle,
                     Stock = x.p.Stock,
                     ViewCount = x.p.ViewCount,
+                    ThumbnailImage = _storageService.GetFileUrl(x.pi.ImagePath)
                 }).Distinct().ToListAsync();
 
             //4. Select and projection

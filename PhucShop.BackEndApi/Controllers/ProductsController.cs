@@ -25,6 +25,7 @@ namespace PhucShop.BackEndApi.Controllers
         }
 
         [HttpGet("pagings")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAllPagging([FromQuery] ManageProductPagingRequest request)
         {
             var product = await _manageProductService.GetAllPaging(request);
