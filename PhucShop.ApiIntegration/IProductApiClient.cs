@@ -19,5 +19,7 @@ namespace PhucShop.ApiIntegration
         Task<ProductViewModel> GetById(int id, string languageId);
 
         Task<List<ProductViewModel>> GetFeaturedProducts(int take, string languageId);
+
+        Task<List<ProductViewModel>> GetLatestProducts(int take, string languageId);
     }
 }

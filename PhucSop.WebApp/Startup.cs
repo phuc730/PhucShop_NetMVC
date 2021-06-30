@@ -74,6 +74,7 @@ namespace PhucSop.WebApp
 
             services.AddTransient<ISlideApiClient, SlideApiClient>();
             services.AddTransient<IProductApiClient, ProductApiClient>();
+            services.AddTransient<ICategoryApiClient, CategoryApiClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -101,6 +102,37 @@ namespace PhucSop.WebApp
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                    name: "Product Category En",
+                    pattern: "{culture}/category/{id}", new
+                    {
+                        controller = "Product",
+                        action = "Category"
+                    });
+
+                endpoints.MapControllerRoute(
+                  name: "Product Category Vn",
+                  pattern: "{culture}/danh-muc/{id}", new
+                  {
+                      controller = "Product",
+                      action = "Category"
+                  });
+
+                endpoints.MapControllerRoute(
+                    name: "Product Detail En",
+                    pattern: "{culture}/products/{id}", new
+                    {
+                        controller = "Product",
+                        action = "Detail"
+                    });
+
+                endpoints.MapControllerRoute(
+                  name: "Product Detail Vn",
+                  pattern: "{culture}/san-pham/{id}", new
+                  {
+                      controller = "Product",
+                      action = "Detail"
+                  });
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{culture=vi}/{controller=Home}/{action=Index}/{id?}");

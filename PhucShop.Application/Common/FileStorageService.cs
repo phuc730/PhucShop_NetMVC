@@ -11,6 +11,7 @@ namespace PhucShop.Application.Common
     {
         private readonly string _userContentFolder;
         private const string USER_CONTENT_FOLDER_NAME = "user-content";
+        private const string localhostBE = "https://localhost:5001";
 
         public FileStorageService(IWebHostEnvironment webHostEnvironment)
         {
@@ -19,7 +20,7 @@ namespace PhucShop.Application.Common
 
         public string GetFileUrl(string fileName)
         {
-            return $"/{USER_CONTENT_FOLDER_NAME}/{fileName}";
+            return $"{localhostBE}/{USER_CONTENT_FOLDER_NAME}/{fileName}";
         }
 
         public async Task SaveFileAsync(Stream mediaBinaryStream, string fileName)

@@ -29,7 +29,8 @@ namespace PhucShop.Application.Catalog.Categories
             return await query.Select(x => new CategoryViewModel()
             {
                 Id = x.c.Id,
-                Name = x.ct.Name
+                Name = x.ct.Name,
+                ParentId = x.c.ParentId
             }).ToListAsync();
         }
     }

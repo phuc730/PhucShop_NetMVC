@@ -42,11 +42,14 @@ namespace PhucSop.WebApp.Controllers
             var slides = await _slideApiClient.GetAll();
             var featuredProducts = await _productApiClient.GetFeaturedProducts(
                 SystemConstants.ProductSettings.NumberOfFeaturedProducts, languageId);
+            var latestProducts = await _productApiClient.GetLatestProducts(
+                SystemConstants.ProductSettings.NumberOfLatestProducts, languageId);
 
             var viewModel = new HomeViewModel()
             {
                 Slides = slides,
-                FeaturedProducts = featuredProducts
+                FeaturedProducts = featuredProducts,
+                LatestProducts = latestProducts
             };
             return View(viewModel);
         }
