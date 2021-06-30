@@ -91,6 +91,45 @@ namespace PhucShop.ApiIntegration
             return respone.IsSuccessStatusCode;
         }
 
+        public async Task<bool> UpdateProduct(ProductUpdateRequest request)
+        {
+            var sessions = _httpContextAccessor
+                .HttpContext
+                .Session
+                .GetString(SystemConstants.AppSettings.Token);
+
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration[SystemConstants.AppSettings.BaseAddress]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+
+            var languageId = _httpContextAccessor.HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
+            var requestContent = new MultipartFormDataContent();
+
+            // fomat kieu iform
+            if (request.ThumbnailImage != null)
+            {
+                byte[] data;
+                using (var br = new BinaryReader(request.ThumbnailImage.OpenReadStream()))
+                {
+                    data = br.ReadBytes((int)request.ThumbnailImage.OpenReadStream().Length);
+                }
+                ByteArrayContent bytes = new ByteArrayContent(data);
+                requestContent.Add(bytes, "thumbnailImage", request.ThumbnailImage.FileName);
+            }
+
+            requestContent.Add(new StringContent(request.Name.ToString()), "name");
+            requestContent.Add(new StringContent(request.Description.ToString()), "description");
+
+            requestContent.Add(new StringContent(request.Details.ToString()), "details");
+            requestContent.Add(new StringContent(request.SeoDescription.ToString()), "seoDescription");
+            requestContent.Add(new StringContent(request.SeoTitle.ToString()), "seoTitle");
+            requestContent.Add(new StringContent(request.SeoAlias.ToString()), "seoAlias");
+            requestContent.Add(new StringContent(languageId), "languageId");
+
+            var respone = await client.PutAsync("/api/products/" + request.Id, requestContent);
+            return respone.IsSuccessStatusCode;
+        }
+
         public async Task<ProductViewModel> GetById(int id, string languageId)
         {
             var data = await base.GetAsync<ProductViewModel>($"/api/products/{id}/{languageId}");

@@ -38,6 +38,34 @@ namespace PhucShop.Application.Catalog.Products
 
         public async Task<int> Create(ProductCreateRequest request)
         {
+            var languages = _context.Languages;
+            var translations = new List<ProductTranslation>();
+            foreach (var language in languages)
+            {
+                if (language.Id == request.LanguageId)
+                {
+                    translations.Add(new ProductTranslation()
+                    {
+                        Name = request.Name,
+                        Description = request.Description,
+                        Details = request.Details,
+                        SeoDescription = request.SeoDescription,
+                        SeoAlias = request.SeoAlias,
+                        SeoTitle = request.SeoTitle,
+                        LanguageId = request.LanguageId
+                    });
+                }
+                else
+                {
+                    translations.Add(new ProductTranslation()
+                    {
+                        Name = "N/A",
+                        Description = "N/A",
+                        SeoAlias = "N/A",
+                        LanguageId = language.Id
+                    });
+                }
+            }
             var product = new Product()
             {
                 Price = request.Price,
@@ -52,19 +80,7 @@ namespace PhucShop.Application.Catalog.Products
                         CategoryId = request.CategoryId,
                     }
                 },
-                ProductTranslations = new List<ProductTranslation>()
-                {
-                    new ProductTranslation()
-                    {
-                        Name =  request.Name,
-                        Description = request.Description,
-                        Details = request.Details,
-                        SeoDescription = request.SeoDescription,
-                        SeoAlias = request.SeoAlias,
-                        SeoTitle = request.SeoTitle,
-                        LanguageId = request.LanguageId
-                    }
-                }
+                ProductTranslations = translations
             };
             //Save image
 

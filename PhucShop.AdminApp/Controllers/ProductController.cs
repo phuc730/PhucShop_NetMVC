@@ -87,6 +87,45 @@ namespace PhucShop.AdminApp.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var languageId = HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
+            var product = await _productApiClient.GetById(id, languageId);
+            var editViewModel = new ProductUpdateRequest()
+            {
+                Id = product.Id,
+                Description = product.Description,
+                Details = product.Details,
+                Name = product.Name,
+                SeoAlias = product.SeoAlias,
+                SeoDescription = product.SeoDescription,
+                SeoTitle = product.SeoTitle
+            };
+            return View(editViewModel);
+        }
+
+        [HttpPost]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> Edit([FromForm] ProductUpdateRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            var result = await _productApiClient.UpdateProduct(request);
+
+            if (result)
+            {
+                TempData["result"] = "Success";
+                return RedirectToAction("Index");
+            }
+
+            ModelState.AddModelError("", "Fail");
+            return View(request);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> CategoryAssign(int id)
         {
             var categoryAssignRequest = await GetCategoryAssignRequest(id);

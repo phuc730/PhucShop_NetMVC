@@ -76,15 +76,16 @@ namespace PhucShop.BackEndApi.Controllers
             return CreatedAtAction(nameof(GetById), new { id = productId }, product);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> Update([FromForm] ProductUpdateRequest request)
+        [HttpPut("{productId}")]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> Update([FromRoute] int productId, [FromForm] ProductUpdateRequest request)
         {
             //modelState la kiem tra co so du lieu nhap vao
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
+            request.Id = productId;
             var result = await _manageProductService.Update(request);
             if (result == 0)
             {
