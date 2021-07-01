@@ -33,6 +33,7 @@ namespace PhucShop.BackEndApi.Controllers
         }
 
         [HttpGet("{productId}/{languageId}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetById(int productId, string languageId)
         {
             var product = await _manageProductService.GetById(productId, languageId);

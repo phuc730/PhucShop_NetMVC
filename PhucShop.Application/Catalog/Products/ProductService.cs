@@ -238,6 +238,7 @@ namespace PhucShop.Application.Catalog.Products
             var product = await _context.Products.FindAsync(Productid);
             var productTranslation = await _context.ProductTranslations.FirstOrDefaultAsync(x => x.ProductId == Productid
             && x.LanguageId == languageId);
+            var productImage = await _context.ProductImages.FirstOrDefaultAsync(x => x.ProductId == Productid);
             var categories = await (from c in _context.Categories
                                     join ct in _context.CategoryTranslations on c.Id equals ct.CategoryId
                                     join pic in _context.ProductInCategories on c.Id equals pic.CategoryId
@@ -258,7 +259,8 @@ namespace PhucShop.Application.Catalog.Products
                 SeoTitle = productTranslation != null ? productTranslation.SeoTitle : null,
                 Stock = product.Stock,
                 ViewCount = product.ViewCount,
-                Categories = categories
+                Categories = categories,
+                ThumbnailImage = _storageService.GetFileUrl(productImage.ImagePath)
             };
             return productViewModel;
         }

@@ -140,6 +140,10 @@
     <value>Đăng nhập</value>
     <comment>/layout</comment>
   </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Đăng xuất</value>
+    <comment>/layout</comment>
+  </data>
   <data name="productUrl" xml:space="preserve">
     <value>san-pham</value>
   </data>

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PhucShop.ApiIntegration;
+using PhucShop.ViewModels.Catalog.Product;
 using PhucShop.ViewModels.Catalog.Products;
 using PhucSop.WebApp.Models;
 using System;
@@ -20,9 +21,16 @@ namespace PhucSop.WebApp.Controllers
             _categoryApiClient = categoryApiClient;
         }
 
-        public IActionResult Detail(int id)
+        public async Task<IActionResult> Detail(int id, string culture)
         {
-            return View();
+            var product = await _productApiClient.GetById(id, culture);
+            var category = await _categoryApiClient.GetById(culture, id);
+            var productViewModel = new ProductDetailViewModel()
+            {
+                Category = category,
+                Product = product
+            };
+            return View(productViewModel);
         }
 
         public async Task<IActionResult> Category(int id, string culture, int pageIndex = 1, int pageSize = 10)

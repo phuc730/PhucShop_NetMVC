@@ -120,6 +120,14 @@
   <data name="categoryUrl" xml:space="preserve">
     <value>category</value>
   </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+    <comment>/layout</comment>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+    <comment>/layout</comment>
+  </data>
   <data name="productUrl" xml:space="preserve">
     <value>products</value>
   </data>

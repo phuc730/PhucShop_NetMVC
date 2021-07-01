@@ -1,4 +1,5 @@
 using LazZiya.ExpressLocalization;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -30,11 +31,13 @@ namespace PhucSop.WebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpClient();
+
             var cultures = new[]
             {
                 new CultureInfo("en"),
                 new CultureInfo("vi"),
             };
+
             services.AddControllersWithViews().AddExpressLocalization<ExpressLocalizationResource, ViewLocalizationResource>(ops =>
             {
                 // When using all the culture providers, the localization process will
@@ -65,6 +68,13 @@ namespace PhucSop.WebApp
                 };
             });
 
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(option =>
+                {
+                    option.LoginPath = "/Account/Login";
+                    option.AccessDeniedPath = "/Account/Forbidden";
+                });
+
             services.AddSession(option =>
             {
                 option.IdleTimeout = TimeSpan.FromMinutes(30);
@@ -75,6 +85,7 @@ namespace PhucSop.WebApp
             services.AddTransient<ISlideApiClient, SlideApiClient>();
             services.AddTransient<IProductApiClient, ProductApiClient>();
             services.AddTransient<ICategoryApiClient, CategoryApiClient>();
+            services.AddTransient<IUserApiClient, UserApiClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -92,7 +103,7 @@ namespace PhucSop.WebApp
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseAuthentication();
             app.UseRouting();
 
             app.UseAuthorization();
