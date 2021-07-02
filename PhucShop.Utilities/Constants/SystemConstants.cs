@@ -7,6 +7,7 @@ namespace PhucShop.Utilities.Constants
     public class SystemConstants
     {
         public const string MainConnectionString = "pShopSolutionDb";
+        public const string CartSession = "CartSession";
 
         public class AppSettings
         {
