@@ -50,7 +50,8 @@ namespace PhucSop.WebApp.Controllers
                 Description = product.Description,
                 Image = product.ThumbnailImage,
                 Name = product.Name,
-                Quantity = quantity
+                Quantity = quantity,
+                Price = product.Price
             };
 
             if (currentCart == null) currentCart = new List<CartViewModel>();
@@ -58,7 +59,21 @@ namespace PhucSop.WebApp.Controllers
             currentCart.Add(cartViewModel);
             // neu o tren khong co session nao thi o day se tao ra 1 cartSession va truyen data vao
             HttpContext.Session.SetString(SystemConstants.CartSession, JsonConvert.SerializeObject(currentCart));
-            return Ok();
+            return Ok(currentCart);
+        }
+
+        [HttpGet]
+        public IActionResult GetListItems()
+        {
+            var session = HttpContext.Session.GetString(SystemConstants.CartSession);
+
+            List<CartViewModel> currentCart = new List<CartViewModel>();
+
+            if (session != null)
+            {
+                currentCart = JsonConvert.DeserializeObject<List<CartViewModel>>(session);
+            }
+            return Ok(currentCart);
         }
     }
 }
