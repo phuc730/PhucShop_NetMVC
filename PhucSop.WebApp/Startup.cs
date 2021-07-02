@@ -1,3 +1,4 @@
+using FluentValidation.AspNetCore;
 using LazZiya.ExpressLocalization;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PhucShop.ApiIntegration;
+using PhucShop.ViewModels.System.Users;
 using PhucSop.WebApp.LocalizationResources;
 using System;
 using System.Collections.Generic;
@@ -38,7 +40,9 @@ namespace PhucSop.WebApp
                 new CultureInfo("vi"),
             };
 
-            services.AddControllersWithViews().AddExpressLocalization<ExpressLocalizationResource, ViewLocalizationResource>(ops =>
+            services.AddControllersWithViews().AddFluentValidation(
+                fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>())
+                .AddExpressLocalization<ExpressLocalizationResource, ViewLocalizationResource>(ops =>
             {
                 // When using all the culture providers, the localization process will
                 // check all available culture providers in order to detect the request culture.

@@ -79,6 +79,51 @@ namespace PhucSop.WebApp.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(request);
+            }
+
+            var result = await _userApiClient.RegisterUser(request);
+
+            if (!result.IsSuccessed)
+            {
+                ModelState.AddModelError("", result.Message);
+                return View();
+            }
+            var loginRequest = await _userApiClient.Authenticate(new LoginRequest()
+            {
+                UserName = request.UserName,
+                PassWord = request.PassWord,
+                RememberMe = true
+            });
+            var userPrincipal = this.ValidateToken(loginRequest.ResultObj);
+            var authProperties = new AuthenticationProperties
+            {
+                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
+                IsPersistent = false
+            };
+
+            //  HttpContext.Session.SetString(SystemConstants.AppSettings.DefaultLanguageId, _configuration["DefaultLanguageId"]);
+            HttpContext.Session.SetString(SystemConstants.AppSettings.Token, loginRequest.ResultObj);
+
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                userPrincipal,
+                authProperties
+                );
+            return RedirectToAction("Index", "Home");
+        }
+
         //chua cac thong tin tu token ma claim duoc
         private ClaimsPrincipal ValidateToken(string jwtToken)
         {

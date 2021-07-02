@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PhucShop.ViewModels.Common
+﻿namespace PhucShop.ViewModels.Common
 {
     public class ApiResultSuccessed<T> : ApiResult<T>
     {

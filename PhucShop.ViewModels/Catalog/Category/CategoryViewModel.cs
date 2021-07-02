@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PhucShop.ViewModels.Catalog.Category
+﻿namespace PhucShop.ViewModels.Catalog.Category
 {
     public class CategoryViewModel
     {

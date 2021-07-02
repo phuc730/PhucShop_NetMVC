@@ -1,7 +1,5 @@
-﻿using PhucShop.ViewModels.Catalog.Category;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace PhucShop.ViewModels.Catalog.Products
 {
