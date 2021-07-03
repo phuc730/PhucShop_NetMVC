@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PhucShop.ApiIntegration;
 using PhucShop.Utilities.Constants;
+using PhucShop.ViewModels.Sales;
 using PhucSop.WebApp.Models;
 using System;
 using System.Collections.Generic;
@@ -40,10 +41,12 @@ namespace PhucSop.WebApp.Controllers
             }
 
             var quantity = 1;
+
             if (currentCart.Any(x => x.ProductId == id))
             {
                 quantity = currentCart.First(x => x.ProductId == id).Quantity + 1;
             }
+
             var cartViewModel = new CartViewModel()
             {
                 ProductId = id,
@@ -57,6 +60,18 @@ namespace PhucSop.WebApp.Controllers
             if (currentCart == null) currentCart = new List<CartViewModel>();
 
             currentCart.Add(cartViewModel);
+
+            foreach (var item in currentCart)
+            {
+                var quantityBeforeAdd = currentCart.First(x => x.ProductId == item.ProductId).Quantity;
+                var quantityAfterAdd = currentCart.Last(x => x.ProductId == item.ProductId).Quantity;
+                if (quantityAfterAdd > quantityBeforeAdd)
+                {
+                    currentCart.Remove(item);
+                    break;
+                }
+            }
+
             // neu o tren khong co session nao thi o day se tao ra 1 cartSession va truyen data vao
             HttpContext.Session.SetString(SystemConstants.CartSession, JsonConvert.SerializeObject(currentCart));
             return Ok(currentCart);
@@ -102,6 +117,57 @@ namespace PhucSop.WebApp.Controllers
 
             HttpContext.Session.SetString(SystemConstants.CartSession, JsonConvert.SerializeObject(currentCart));
             return Ok(currentCart);
+        }
+
+        [HttpGet]
+        public IActionResult CheckOutCart()
+        {
+            return View(GetCheckoutViewModel());
+        }
+
+        [HttpPost]
+        public IActionResult CheckOutCart(CheckoutViewModel request)
+        {
+            var model = GetCheckoutViewModel();
+            var orderDetails = new List<OrderViewModel>();
+            foreach (var item in model.CartItems)
+            {
+                orderDetails.Add(new OrderViewModel()
+                {
+                    ProductId = item.ProductId,
+                    Quantity = item.Quantity
+                });
+            }
+
+            var checkoutRequest = new CheckoutRequest()
+            {
+                Address = request.CheckoutModel.Address,
+                Email = request.CheckoutModel.Email,
+                Name = request.CheckoutModel.Name,
+                PhoneNumber = request.CheckoutModel.PhoneNumber,
+                OrderDetails = orderDetails
+            };
+            TempData["SuccessMsg"] = "Order success";
+            return View(GetCheckoutViewModel());
+        }
+
+        private CheckoutViewModel GetCheckoutViewModel()
+        {
+            var session = HttpContext.Session.GetString(SystemConstants.CartSession);
+
+            List<CartViewModel> currentCart = new List<CartViewModel>();
+
+            if (session != null)
+            {
+                currentCart = JsonConvert.DeserializeObject<List<CartViewModel>>(session);
+            }
+
+            var checkoutViewModel = new CheckoutViewModel()
+            {
+                CartItems = currentCart,
+                CheckoutModel = new CheckoutRequest()
+            };
+            return checkoutViewModel;
         }
     }
 }
