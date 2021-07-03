@@ -24,7 +24,6 @@ var SiteController = function () {
             e.preventDefault();
             const id = $(this).data('id');
             const culture = $('#hiddenCulture').val();
-            alert(id);
             $.ajax({
                 type: "POST",
                 url: '/' + culture + '/Cart/AddToCart',

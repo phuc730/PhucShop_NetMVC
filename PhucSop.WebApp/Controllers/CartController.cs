@@ -75,5 +75,33 @@ namespace PhucSop.WebApp.Controllers
             }
             return Ok(currentCart);
         }
+
+        public IActionResult UpdateCart(int id, int quantity)
+        {
+            var session = HttpContext.Session.GetString(SystemConstants.CartSession);
+
+            List<CartViewModel> currentCart = new List<CartViewModel>();
+
+            if (session != null)
+            {
+                currentCart = JsonConvert.DeserializeObject<List<CartViewModel>>(session);
+            }
+
+            foreach (var item in currentCart)
+            {
+                if (item.ProductId == id)
+                {
+                    if (quantity == 0)
+                    {
+                        currentCart.Remove(item);
+                        break;
+                    }
+                    item.Quantity = quantity;
+                }
+            }
+
+            HttpContext.Session.SetString(SystemConstants.CartSession, JsonConvert.SerializeObject(currentCart));
+            return Ok(currentCart);
+        }
     }
 }
